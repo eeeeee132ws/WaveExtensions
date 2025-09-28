@@ -1,69 +1,293 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rounded Square Page</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wave Extensions</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 100px;
+      padding-bottom: 50px;
+      background-color: #1f1f1f;
+      color: white;
+    }
 
-        .rounded-square {
-            width: 250px;
-            height: 250px;
-            border-radius: 20px;
-            overflow: hidden;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            margin-bottom: 20px;
-        }
+    /* Top-left corner logo */
+    .logo {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+    }
 
-        .rounded-square img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
 
-        button {
-            padding: 10px 25px;
-            font-size: 16px;
-            border: none;
-            border-radius: 10px;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
+    /* Title row with big logo + text */
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 8px;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    .big-logo {
+      width: 80px;
+      height: 80px;
+    }
+
+    .big-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .center-text {
+      font-size: 52px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .sub-text {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #cccccc;
+    }
+
+    .warning-text {
+      text-align: center;
+      font-size: 14px;
+      color: #ff4d4d;
+      margin-bottom: 25px;
+      font-weight: bold;
+      opacity: 0;
+      animation: fadeIn 2s forwards 0.5s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      width: 85%;
+      max-width: 1000px;
+    }
+
+    /* Frame */
+    .frame {
+      background: linear-gradient(135deg, #2a2a2a, #3a3a3a);
+      border-radius: 18px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+    }
+
+    .frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      padding: 2px;
+      border-radius: 18px;
+      background: linear-gradient(270deg, #007bff, #00bfff, #1e90ff, #00ffff);
+      background-size: 600% 600%;
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 1;
+      animation: smoothGradient 6s linear infinite;
+    }
+
+    @keyframes smoothGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .frame:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+    }
+
+    /* Image */
+    .frame img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .frame .img-overlay {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      right: 8px;
+      height: 220px;
+      border-radius: 10px;
+      background: linear-gradient(270deg, rgba(0,123,255,0.3), rgba(0,191,255,0.3), rgba(30,144,255,0.3), rgba(0,255,255,0.3));
+      background-size: 400% 400%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      animation: gradientFlow 6s ease infinite;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .frame:hover .img-overlay {
+      opacity: 1;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Info section */
+    .info-text {
+      width: 90%;
+      min-height: 70px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #3a3a3a, #4a4a4a);
+      padding: 8px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .info-text .name {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .info-text p {
+      margin: 2px 0;
+    }
+
+    .info-text .bold {
+      font-weight: bold;
+    }
+
+    /* Buttons */
+    .button-container {
+      display: inline-flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: auto;
+      z-index: 2;
+      position: relative;
+    }
+
+    .copy-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      background: linear-gradient(to top, #007bff, #00a0ff);
+    }
+
+    .copy-btn:hover {
+      background: linear-gradient(to top, #0056b3, #0080ff);
+    }
+  </style>
 </head>
 <body>
 
-    <div class="rounded-square">
-        <img src="https://via.placeholder.com/250" alt="Image">
+  <!-- Small top-left logo -->
+  <div class="logo">
+    <img src="https://i.postimg.cc/CZcdcjmC/logo.png" alt="Logo">
+  </div>
+
+  <!-- Big logo + title -->
+  <div class="title-row">
+    <div class="big-logo">
+      <img src="https://i.postimg.cc/CZcdcjmC/logo.png" alt="Big Logo">
+    </div>
+    <div class="center-text">Wave Extensions</div>
+  </div>
+
+  <div class="sub-text">Find the right extensions you need.</div>
+  <div class="warning-text">Please load these extensions unsandbox otherwise they might not load</div>
+
+  <div class="grid-container">
+    <!-- Frame 1 -->
+    <div class="frame">
+      <img src="https://i.postimg.cc/c4Ywn67j/Clock.png" alt="wait expanded">
+      <div class="img-overlay"></div>
+      <div class="info-text">
+        <div class="name">Wait Family</div>
+        <p class="bold">Description:</p>
+        <p>Expands Wait Category.</p>
+        <p class="bold">Creators:</p>
+        <p>MicrowaveDo</p>
+      </div>
+      <div class="button-container">
+        <button class="copy-btn" onclick="copyURL('https://example.com/extension1')">Copy URL</button>
+      </div>
     </div>
 
-    <button onclick="buttonClicked()">Click Me</button>
+    <!-- Frame 2 -->
+    <div class="frame">
+      <img src="https://images.unsplash.com/photo-1600185364327-2d6f70f0482b?stretch=crop&w=400&h=200" alt="Extension 2">
+      <div class="img-overlay"></div>
+      <div class="info-text">
+        <div class="name">Extension Two</div>
+        <p class="bold">Description:</p>
+        <p>Another awesome extension.</p>
+        <p class="bold">Creators:</p>
+        <p>MicrowaveDo</p>
+      </div>
+      <div class="button-container">
+        <button class="copy-btn" onclick="copyURL('https://example.com/extension2')">Copy URL</button>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        function buttonClicked() {
-            alert("Button clicked!");
-        }
-    </script>
+  <script>
+    function copyURL(url) {
+      navigator.clipboard.writeText(url)
+        .then(() => alert("URL copied to clipboard!"))
+        .catch(() => alert("Failed to copy URL"));
+    }
+  </script>
 
 </body>
 </html>
